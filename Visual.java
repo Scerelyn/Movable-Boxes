@@ -20,6 +20,19 @@ public class Visual extends JComponent{
 		g2.setPaint(Color.LIGHT_GRAY);
 		g2.fill(bg);
 		for(PlayerBox pb : players){
+			if( !(pb.getVisible().getX() < 0 || pb.getVisible().getX()+pb.getVisible().getWidth() > bg.getX()+bg.getWidth() || pb.getVisible().getY() < 0 || pb.getVisible().getY()+pb.getVisible().getHeight() > bg.getY()+bg.getHeight()) ){
+				pb.move();
+			} else {
+				if(pb.getVisible().getX() < 0){
+					pb.setPos(0, pb.getVisible().getY());
+				} else if(pb.getVisible().getX()+pb.getVisible().getWidth() > bg.getX()+bg.getWidth()){
+					pb.setPos(this.bg.getWidth()-pb.getVisible().getWidth(), pb.getVisible().getY());
+				} else if(pb.getVisible().getY() < 0){
+					pb.setPos(pb.getVisible().getX(),0);
+				} else if(pb.getVisible().getY()+pb.getVisible().getHeight() > bg.getY()+bg.getHeight()){
+					pb.setPos(pb.getVisible().getX(),this.bg.getHeight()-pb.getVisible().getHeight());
+				}
+			}
 			pb.changeState();
 			g2.setPaint(pb.getColor());
 			g2.fill(pb.getVisible());

@@ -10,7 +10,7 @@ import com.ivan.xinput.XInputComponents;
 import com.ivan.xinput.XInputDevice14;
 
 public class PlayerBox {
-	public final static double LENGTH = 100, WIDTH = 100, VECTOR_MAX_LENGTH = 100;
+	public final static double LENGTH = 100, WIDTH = 100, VECTOR_MAX_LENGTH = 100, VECTOR_MAX_MOVE_AMOUNT = 10;
 	private Rectangle2D visible;
 	private Color color;
 	private Line2D dirVect;
@@ -55,6 +55,17 @@ public class PlayerBox {
 		} else {
 			System.out.println("Controller disconnected");
 		}
+	}
+	
+	public void move(){
+		visible = new Rectangle2D.Double(
+				visible.getX()+vecMag*VECTOR_MAX_MOVE_AMOUNT*Math.cos(vecAng),
+				visible.getY()-vecMag*VECTOR_MAX_MOVE_AMOUNT*Math.sin(vecAng),
+				visible.getWidth(),visible.getHeight());
+	}
+	
+	public void setPos(double x, double y){
+		visible = new Rectangle2D.Double(x,y,visible.getWidth(),visible.getHeight());
 	}
 	
 	public Rectangle2D getVisible() {
