@@ -10,24 +10,30 @@ import com.ivan.xinput.XInputComponents;
 
 public class ControllerStatsWindow extends JFrame{
 	PlayerBox pb;
-	JLabel cxn,rs,ls,lt,rt;
+	JLabel rs,ls,lt,rt,abxy;
 	public ControllerStatsWindow(PlayerBox pb){
 		XInputComponents components = pb.getController().getComponents();
 		XInputButtons buttons = components.getButtons();
 		XInputAxes axes = components.getAxes();
 		
+		Font f = new Font("Sans-serif", Font.PLAIN, 48);
 		this.pb = pb;
 		this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
-		cxn = new JLabel("Controller: " + pb.getController().poll());
 		rs = new JLabel("Right Stick: x:" + axes.rx + " y: " + axes.ry);
+		rs.setFont(f);
 		ls = new JLabel("Left Stick: x:" + axes.lx + " y: " + axes.ly);
+		ls.setFont(f);
 		lt = new JLabel("Left Trigger: " + axes.lt);
+		lt.setFont(f);
 		rt = new JLabel("Right Trigger: " + axes.rt);
-		this.getContentPane().add(cxn);
+		rt.setFont(f);
+		abxy = new JLabel("A: " + buttons.a + " B: " + buttons.b + " X: " + buttons.x + " Y: " + buttons.y);
+		abxy.setFont(f);
 		this.getContentPane().add(rs);
 		this.getContentPane().add(ls);
 		this.getContentPane().add(lt);
 		this.getContentPane().add(rt);
+		this.getContentPane().add(abxy);
 		this.pack();
 	}
 	
@@ -36,10 +42,10 @@ public class ControllerStatsWindow extends JFrame{
 		XInputButtons buttons = components.getButtons();
 		XInputAxes axes = components.getAxes();
 		
-		cxn.setText("Controller: " + pb.getController().poll());
 		rs.setText("Right Stick: x:" + axes.rx + " y: " + axes.ry);
 		ls.setText("Left Stick: x:" + axes.lx + " y: " + axes.ly);
 		lt.setText("Left Trigger: " + axes.lt);
 		rt.setText("Right Trigger: " + axes.rt);
+		abxy.setText("A: " + buttons.a + " B: " + buttons.b + " X: " + buttons.x + " Y: " + buttons.y);
 	}
 }

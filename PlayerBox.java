@@ -48,15 +48,15 @@ public class PlayerBox {
 			vecMag = magSet;
 			
 			dirVect = new Line2D.Double(visible.getCenterX(), visible.getCenterY(), visible.getCenterX()+vecMag*VECTOR_MAX_LENGTH*Math.cos(vecAng),visible.getCenterY()-vecMag*VECTOR_MAX_LENGTH*Math.sin(vecAng));
-			System.out.println("Left thumb stick x: " + axes.lx + " y: " + axes.ly + " atan ang: " + Math.toDegrees(ang));
-			System.out.println("Right thumb stick x: " + axes.rx + " y: " + axes.ry);
-			System.out.println("Left trigger: " + axes.lt + " Right trigger: " + axes.rt);
-			System.out.println("Buttons: a:" + buttons.a + " b: " + buttons.b + " x: " + buttons.x + " y: " + buttons.y);
+			//System.out.println("Left thumb stick x: " + axes.lx + " y: " + axes.ly + " atan ang: " + Math.toDegrees(ang));
+			//System.out.println("Right thumb stick x: " + axes.rx + " y: " + axes.ry);
+			//System.out.println("Left trigger: " + axes.lt + " Right trigger: " + axes.rt);
+			//System.out.println("Buttons: a:" + buttons.a + " b: " + buttons.b + " x: " + buttons.x + " y: " + buttons.y);
 		} else {
 			System.out.println("Controller disconnected");
 		}
 	}
-
+	
 	public Rectangle2D getVisible() {
 		return visible;
 	}

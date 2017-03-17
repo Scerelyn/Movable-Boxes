@@ -20,10 +20,15 @@ public class Visual extends JComponent{
 		g2.setPaint(Color.LIGHT_GRAY);
 		g2.fill(bg);
 		for(PlayerBox pb : players){
+			pb.changeState();
 			g2.setPaint(pb.getColor());
 			g2.fill(pb.getVisible());
 			g2.setPaint(Color.BLACK);
 			g2.draw(pb.getDirVect());
 		}
+	}
+	
+	public void addPlayer(PlayerBox pb){
+		players.add(pb);
 	}
 }
