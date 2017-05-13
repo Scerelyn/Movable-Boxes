@@ -19,7 +19,7 @@ public class Runner {
 			PlayerBox p1 = new PlayerBox(50,50,Color.RED,devices[0]);
 			p1.changeState();
 			
-			Visual v = new Visual(0,0,500,500);
+			Visual v = new Visual(0,0,1200,700);
 			v.addPlayer(p1);
 			VisualRefresher vr = new VisualRefresher(v);
 			t.schedule(vr, 0, 10);
@@ -27,7 +27,7 @@ public class Runner {
 			JFrame jf = new JFrame();
 			jf.getContentPane().add(v);
 			jf.pack();
-			jf.setBounds(0, 500, 550, 550);
+			jf.setBounds(0, 500, 1250, 750);
 			jf.setVisible(true);
 			jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
@@ -36,7 +36,7 @@ public class Runner {
 			StatsWindowRefresher cwr = new StatsWindowRefresher(cw);
 			t.schedule(cwr,0,10);
 		} catch (XInputNotLoadedException e){
-			
+			System.out.println("XInput device didn't load or something happened");
 		}
 
 	}

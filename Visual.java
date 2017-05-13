@@ -38,6 +38,7 @@ public class Visual extends JComponent{
 			g2.fill(pb.getVisible());
 			g2.setPaint(Color.BLACK);
 			g2.draw(pb.getDirVect());
+			g2.draw(pb.getAimVect());
 		}
 	}
 	

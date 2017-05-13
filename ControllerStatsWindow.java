@@ -47,5 +47,6 @@ public class ControllerStatsWindow extends JFrame{
 		lt.setText("Left Trigger: " + axes.lt);
 		rt.setText("Right Trigger: " + axes.rt);
 		abxy.setText("A: " + buttons.a + " B: " + buttons.b + " X: " + buttons.x + " Y: " + buttons.y);
+		this.pack();
 	}
 }
