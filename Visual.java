@@ -27,7 +27,7 @@ public class Visual extends JComponent{
 			} else {
 				toRemove.add(p);
 			}
-			g2.setPaint(Color.YELLOW);
+			g2.setPaint(p.getpColor());
 			g2.fill(p.getVisible());
 			
 		}
@@ -49,7 +49,19 @@ public class Visual extends JComponent{
 			pb.changeState();
 			
 			if(pb.isShooting()){
-				projectiles.add( new Projectile(pb.getBarrelEnd().getX()-15, pb.getBarrelEnd().getY()-15,30,30,1,pb.getAimVecAng(),Projectile.PROJECTILE_MAX_SPEED));
+				for(int i = 0; i < pb.getProjCount(); i++){					
+					projectiles.add( new Projectile(
+						pb.getBarrelEnd().getX()-pb.getProjSize()/2, 
+						pb.getBarrelEnd().getY()-pb.getProjSize()/2,
+						pb.getProjSize(),
+						pb.getProjSize(),
+						1,
+						pb.getAimVecAng()+pb.getRandInRange(pb.getAccMin(), pb.getAccMax()),
+						pb.getProjSpeed(),
+						pb.getProjColor()
+						)
+					);
+				}
 			}
 			
 			g2.setPaint(pb.getColor());
