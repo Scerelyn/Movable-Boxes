@@ -11,19 +11,21 @@ import com.ivan.xinput.XInputDevice14;
 
 public class PlayerBox {
 	public final static double LENGTH = 100, WIDTH = 100, VECTOR_MAX_LENGTH = 100, VECTOR_MAX_MOVE_AMOUNT = 10;
-	private Rectangle2D visible;
+	private Rectangle2D visible,barrel;
 	private Color color;
 	private Line2D dirVect,aimVect;
 	private XInputDevice14 controller;
-	private double moveVecAng, moveVecMag, aimVecAng; //ang is from 0 to 2pi, mag is 0 to 1
+	private double moveVecAng, moveVecMag, aimVecAng, aimAngDelta; //ang is from 0 to 2pi, mag is 0 to 1
 	
 	
 	public PlayerBox(double xPos, double yPos, Color c, XInputDevice14 xin){
 		this.visible = new Rectangle2D.Double(xPos,yPos,LENGTH,WIDTH);
+		this.barrel = new Rectangle2D.Double(0.4*LENGTH+xPos,0.4*WIDTH+xPos,0.2*LENGTH,WIDTH);
 		this.color = c;
 		this.controller = xin;
 		this.moveVecMag = 0;
 		this.moveVecAng = 0;
+		this.aimAngDelta = 0;
 		this.aimVecAng = 0;
 	}
 
@@ -32,12 +34,12 @@ public class PlayerBox {
 			XInputComponents components = controller.getComponents();
 			XInputButtons buttons = components.getButtons();
 			XInputAxes axes = components.getAxes();
-			
+			aimAngDelta = aimVecAng;
 			double moveDirAng = Math.atan( axes.ly / axes.lx );
 			aimVecAng = Math.atan( axes.ry / axes.rx );
 			double castedLY = Math.floor(axes.ly*10.0)/10.0;
 			double castedLX = Math.floor(axes.lx*10.0)/10.0;
-			System.out.println(castedLY + " " + castedLX);
+			//System.out.println(castedLY + " " + castedLX);
 			double moveDirMag = Math.sqrt( (castedLY*castedLY) + (castedLX*castedLX) )/Math.sqrt(2);
 			
 			//transforming into non terrible angles that arctan gives, from 0 to 2pi rather than -pi/2 to pi/2
@@ -56,7 +58,7 @@ public class PlayerBox {
 			} else if(axes.rx >= 0 && axes.ry < 0){ //IV
 				aimVecAng += (2*Math.PI);
 			}
-			
+			aimAngDelta -= aimVecAng;
 			moveVecAng = moveDirAng;
 			moveVecMag = moveDirMag;
 			dirVect = new Line2D.Double(visible.getCenterX(), visible.getCenterY(), visible.getCenterX()+moveVecMag*VECTOR_MAX_LENGTH*Math.cos(moveVecAng),visible.getCenterY()-moveVecMag*VECTOR_MAX_LENGTH*Math.sin(moveVecAng));
@@ -80,10 +82,15 @@ public class PlayerBox {
 				visible.getX()+moveVecMag*VECTOR_MAX_MOVE_AMOUNT*Math.cos(moveVecAng),
 				visible.getY()-moveVecMag*VECTOR_MAX_MOVE_AMOUNT*Math.sin(moveVecAng),
 				visible.getWidth(),visible.getHeight());
+		barrel = new Rectangle2D.Double(
+				barrel.getX()+moveVecMag*VECTOR_MAX_MOVE_AMOUNT*Math.cos(moveVecAng),
+				barrel.getY()-moveVecMag*VECTOR_MAX_MOVE_AMOUNT*Math.sin(moveVecAng),
+				barrel.getWidth(),barrel.getHeight());
 	}
 	
 	public void setPos(double x, double y){
 		visible = new Rectangle2D.Double(x,y,visible.getWidth(),visible.getHeight());
+		barrel = new Rectangle2D.Double(x,y,barrel.getWidth(),barrel.getHeight());
 	}
 	
 	public Rectangle2D getVisible() {
@@ -113,6 +120,17 @@ public class PlayerBox {
 	public Line2D getAimVect() {
 		return aimVect;
 	}
-	
+
+	public Rectangle2D getBarrel() {
+		return barrel;
+	}
+
+	public double getAimAngDelta() {
+		return aimAngDelta;
+	}
+
+	public double getAimVecAng() {
+		return aimVecAng;
+	}
 	
 }
