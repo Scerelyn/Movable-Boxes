@@ -16,7 +16,7 @@ import com.ivan.xinput.XInputDevice14;
 import com.ivan.xinput.enums.XInputButton;
 
 public class PlayerBox {
-	public final static double LENGTH = 40, WIDTH = 40, VECTOR_MAX_LENGTH = 40, VECTOR_MAX_MOVE_AMOUNT = 5;
+	public final static double LENGTH = 80, WIDTH = 40, VECTOR_MAX_LENGTH = 40, VECTOR_MAX_MOVE_AMOUNT = 5;
 	private Rectangle2D visible,barrel;
 	private Point2D barrelEnd;
 	private Color color;
@@ -40,8 +40,8 @@ public class PlayerBox {
 	}
 	
 	public PlayerBox(double xPos, double yPos, Color c, XInputDevice14 xin){
-		this.visible = new Rectangle2D.Double(xPos,yPos,LENGTH,WIDTH);
-		this.barrel = new Rectangle2D.Double(0.4*LENGTH+xPos,0.4*WIDTH+yPos,0.2*LENGTH,WIDTH);
+		this.visible = new Rectangle2D.Double(xPos,yPos,WIDTH,LENGTH);
+		this.barrel = new Rectangle2D.Double(visible.getCenterX(),visible.getCenterY()-0.05*LENGTH,1.2*WIDTH,0.1*LENGTH);
 		this.color = c;
 		this.controller = xin;
 		this.moveVecMag = 0;

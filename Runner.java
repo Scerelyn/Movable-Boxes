@@ -16,7 +16,7 @@ public class Runner {
 		try{
 			Timer t = new Timer();
 			XInputDevice14[] devices = XInputDevice14.getAllDevices();
-			PlayerBox p1 = new PlayerBox(20,20,Color.RED,devices[0]);
+			PlayerBox p1 = new PlayerBox(20,20,Color.GREEN.darker().darker(),devices[0]);
 			p1.changeState();
 			
 			Visual v = new Visual(0,0,2000,1000);

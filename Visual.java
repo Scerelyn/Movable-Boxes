@@ -33,6 +33,8 @@ public class Visual extends JComponent{
 		}
 		
 		for(PlayerBox pb : players){
+			Graphics2D g2clone = (Graphics2D)(g2.create());
+			
 			if( !(pb.getVisible().getX() < 0 || pb.getVisible().getX()+pb.getVisible().getWidth() > bg.getX()+bg.getWidth() || pb.getVisible().getY() < 0 || pb.getVisible().getY()+pb.getVisible().getHeight() > bg.getY()+bg.getHeight()) ){
 				pb.move();
 			} else {
@@ -63,19 +65,23 @@ public class Visual extends JComponent{
 					);
 				}
 			}
-			
-			g2.setPaint(pb.getColor());
-			g2.fill(pb.getVisible());
-			g2.setPaint(pb.getColor().darker());
+			g2clone.rotate((Math.PI/2)-pb.getMoveVecAng(),pb.getVisible().getCenterX(),pb.getVisible().getCenterY());
+			g2clone.setPaint(pb.getColor());
+			g2clone.fill(pb.getVisible());;
+			g2clone.dispose();
 			
 			g2.setPaint(Color.BLACK);
 			g2.draw(pb.getDirVect());
 			g2.draw(pb.getAimVect());
 			
+			Graphics2D g2clone2 = (Graphics2D)(g2.create());
 			//negate angle and subtract 90deg, idk what the angle is based on but it works now i guess
-			g2.setPaint(Color.BLACK);
-			g2.rotate((-Math.PI/2)-pb.getAimVecAng(),pb.getVisible().getCenterX(), pb.getVisible().getCenterY());
-			g2.fill(pb.getBarrel());
+			g2clone2.setPaint(Color.BLACK);
+			g2clone2.rotate(-pb.getAimVecAng(),pb.getVisible().getCenterX(), pb.getVisible().getCenterY());
+			g2clone2.fill(pb.getBarrel());
+			g2clone2.dispose();
+			
+			
 		}
 		for(Projectile p : toRemove){
 			projectiles.remove(p);
