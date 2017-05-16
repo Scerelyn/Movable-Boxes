@@ -70,10 +70,6 @@ public class Visual extends JComponent{
 			g2clone.fill(pb.getVisible());;
 			g2clone.dispose();
 			
-			g2.setPaint(Color.BLACK);
-			g2.draw(pb.getDirVect());
-			g2.draw(pb.getAimVect());
-			
 			Graphics2D g2clone2 = (Graphics2D)(g2.create());
 			//negate angle and subtract 90deg, idk what the angle is based on but it works now i guess
 			g2clone2.setPaint(Color.BLACK);
@@ -81,7 +77,9 @@ public class Visual extends JComponent{
 			g2clone2.fill(pb.getBarrel());
 			g2clone2.dispose();
 			
-			
+			g2.setPaint(Color.CYAN);
+			g2.draw(pb.getDirVect());
+			g2.draw(pb.getAimVect());
 		}
 		for(Projectile p : toRemove){
 			projectiles.remove(p);

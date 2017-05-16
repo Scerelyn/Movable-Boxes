@@ -1,6 +1,7 @@
 package BoxController;
 
 import java.awt.Color;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -18,6 +19,7 @@ import com.ivan.xinput.enums.XInputButton;
 public class PlayerBox {
 	public final static double LENGTH = 80, WIDTH = 40, VECTOR_MAX_LENGTH = 40, VECTOR_MAX_MOVE_AMOUNT = 5;
 	private Rectangle2D visible,barrel;
+	private Ellipse2D hitbox;
 	private Point2D barrelEnd;
 	private Color color;
 	private Line2D dirVect,aimVect;
@@ -64,6 +66,7 @@ public class PlayerBox {
 			double castedLX = Math.floor(axes.lx*10.0)/10.0;
 			//System.out.println(castedLY + " " + castedLX);
 			double moveDirMag = Math.sqrt( (castedLY*castedLY) + (castedLX*castedLX) )/Math.sqrt(2);
+			if(moveDirMag < 0.1) moveDirMag = 0; //so the tank doesn't move when the stick is mostly at rest position
 			
 			//transforming into non terrible angles that arctan gives, from 0 to 2pi rather than -pi/2 to pi/2
 			if(axes.lx >= 0 && axes.ly >= 0){ //quadrant I
@@ -145,7 +148,7 @@ public class PlayerBox {
 			aimVect = new Line2D.Double(visible.getCenterX(), visible.getCenterY(), visible.getCenterX()+VECTOR_MAX_LENGTH*Math.cos(aimVecAng),visible.getCenterY()-VECTOR_MAX_LENGTH*Math.sin(aimVecAng));
 			moveVecAng = 0;
 			moveVecMag = 0;
-			System.out.println("Controller disconnected");
+			//System.out.println("Controller disconnected");
 		}
 	}
 	
@@ -162,7 +165,7 @@ public class PlayerBox {
 	
 	public void setPos(double x, double y){
 		visible = new Rectangle2D.Double(x,y,visible.getWidth(),visible.getHeight());
-		barrel = new Rectangle2D.Double(x+0.4*visible.getWidth(),y+0.4*visible.getHeight(),barrel.getWidth(),barrel.getHeight());
+		barrel = new Rectangle2D.Double(visible.getCenterX(),visible.getCenterY()-0.05*LENGTH,barrel.getWidth(),barrel.getHeight());
 		
 	}
 	

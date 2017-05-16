@@ -17,10 +17,13 @@ public class Runner {
 			Timer t = new Timer();
 			XInputDevice14[] devices = XInputDevice14.getAllDevices();
 			PlayerBox p1 = new PlayerBox(20,20,Color.GREEN.darker().darker(),devices[0]);
+			PlayerBox p2 = new PlayerBox(20,20,Color.YELLOW.darker().darker(),devices[1]);
 			p1.changeState();
+			p2.changeState();
 			
 			Visual v = new Visual(0,0,2000,1000);
 			v.addPlayer(p1);
+			//v.addPlayer(p2);
 			VisualRefresher vr = new VisualRefresher(v);
 			t.schedule(vr, 0, 10);
 			
