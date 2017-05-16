@@ -35,17 +35,17 @@ public class Visual extends JComponent{
 		for(PlayerBox pb : players){
 			Graphics2D g2clone = (Graphics2D)(g2.create());
 			
-			if( !(pb.getVisible().getX() < 0 || pb.getVisible().getX()+pb.getVisible().getWidth() > bg.getX()+bg.getWidth() || pb.getVisible().getY() < 0 || pb.getVisible().getY()+pb.getVisible().getHeight() > bg.getY()+bg.getHeight()) ){
+			if( !(pb.getVisible().getX() < 0 || pb.getVisible().getX()+PlayerBox.MOVEMENT_HITBOX_LENGTH > bg.getX()+bg.getWidth() || pb.getVisible().getY() < 0 || pb.getVisible().getY()+PlayerBox.MOVEMENT_HITBOX_LENGTH > bg.getY()+bg.getHeight()) ){
 				pb.move();
 			} else {
 				if(pb.getVisible().getX() < 0){
 					pb.setPos(0, pb.getVisible().getY());
-				} else if(pb.getVisible().getX()+pb.getVisible().getWidth() > bg.getX()+bg.getWidth()){
-					pb.setPos(this.bg.getWidth()-pb.getVisible().getWidth(), pb.getVisible().getY());
+				} else if(pb.getVisible().getX()+PlayerBox.MOVEMENT_HITBOX_LENGTH > bg.getX()+bg.getWidth()){
+					pb.setPos(this.bg.getWidth()-PlayerBox.MOVEMENT_HITBOX_LENGTH, pb.getVisible().getY());
 				} else if(pb.getVisible().getY() < 0){
 					pb.setPos(pb.getVisible().getX(),0);
-				} else if(pb.getVisible().getY()+pb.getVisible().getHeight() > bg.getY()+bg.getHeight()){
-					pb.setPos(pb.getVisible().getX(),this.bg.getHeight()-pb.getVisible().getHeight());
+				} else if(pb.getVisible().getY()+PlayerBox.MOVEMENT_HITBOX_LENGTH > bg.getY()+bg.getHeight()){
+					pb.setPos(pb.getVisible().getX(),this.bg.getHeight()-PlayerBox.MOVEMENT_HITBOX_LENGTH);
 				}
 			}
 			pb.changeState();
@@ -80,6 +80,9 @@ public class Visual extends JComponent{
 			g2.setPaint(Color.CYAN);
 			g2.draw(pb.getDirVect());
 			g2.draw(pb.getAimVect());
+		
+			g2.setPaint(Color.GRAY);
+			g2.fill(pb.getHitbox());
 		}
 		for(Projectile p : toRemove){
 			projectiles.remove(p);

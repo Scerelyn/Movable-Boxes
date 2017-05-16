@@ -17,7 +17,7 @@ import com.ivan.xinput.XInputDevice14;
 import com.ivan.xinput.enums.XInputButton;
 
 public class PlayerBox {
-	public final static double LENGTH = 80, WIDTH = 40, VECTOR_MAX_LENGTH = 40, VECTOR_MAX_MOVE_AMOUNT = 5;
+	public final static double LENGTH = 80, WIDTH = 40, VECTOR_MAX_LENGTH = 40, VECTOR_MAX_MOVE_AMOUNT = 5, MOVEMENT_HITBOX_LENGTH = 80, HITBOX_LENGTH = 20;
 	private Rectangle2D visible,barrel;
 	private Ellipse2D hitbox;
 	private Point2D barrelEnd;
@@ -44,6 +44,7 @@ public class PlayerBox {
 	public PlayerBox(double xPos, double yPos, Color c, XInputDevice14 xin){
 		this.visible = new Rectangle2D.Double(xPos,yPos,WIDTH,LENGTH);
 		this.barrel = new Rectangle2D.Double(visible.getCenterX(),visible.getCenterY()-0.05*LENGTH,1.2*WIDTH,0.1*LENGTH);
+		this.hitbox = new Ellipse2D.Double((-(WIDTH+HITBOX_LENGTH)/2.0)+xPos+visible.getCenterX(),(-(LENGTH-HITBOX_LENGTH)/2.0)+yPos+visible.getCenterY(),HITBOX_LENGTH,HITBOX_LENGTH);
 		this.color = c;
 		this.controller = xin;
 		this.moveVecMag = 0;
@@ -161,6 +162,11 @@ public class PlayerBox {
 				barrel.getX()+moveVecMag*VECTOR_MAX_MOVE_AMOUNT*Math.cos(moveVecAng),
 				barrel.getY()-moveVecMag*VECTOR_MAX_MOVE_AMOUNT*Math.sin(moveVecAng),
 				barrel.getWidth(),barrel.getHeight());
+		hitbox = new Ellipse2D.Double(
+				hitbox.getX()+moveVecMag*VECTOR_MAX_MOVE_AMOUNT*Math.cos(moveVecAng),
+				hitbox.getY()-moveVecMag*VECTOR_MAX_MOVE_AMOUNT*Math.sin(moveVecAng),
+				hitbox.getWidth(),hitbox.getHeight()
+				);
 	}
 	
 	public void setPos(double x, double y){
@@ -260,6 +266,10 @@ public class PlayerBox {
 
 	public boolean isCanShoot() {
 		return canShoot;
+	}
+
+	public Ellipse2D getHitbox() {
+		return hitbox;
 	}
 	
 }
