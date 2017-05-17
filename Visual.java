@@ -5,9 +5,12 @@ import java.awt.geom.Rectangle2D;
 import java.util.*;
 import javax.swing.JComponent;
 
+import BoxController.Enemies.Enemy;
+
 public class Visual extends JComponent{
 	private ArrayList<PlayerBox> players = new ArrayList<>();
 	private ArrayList<Projectile> projectiles = new ArrayList<>();
+	private ArrayList<Enemy> enemies = new ArrayList<>();
 	private Rectangle2D bg;
 	
 	public Visual(int xPos, int yPos, int width, int height){
@@ -84,6 +87,39 @@ public class Visual extends JComponent{
 			g2.setPaint(Color.GRAY);
 			g2.fill(pb.getHitbox());
 		}
+		
+		for(Enemy e : enemies){
+			e.build();
+			e.update();
+			
+			for(int i = 0; i < e.getVisibleParts().length; i++){
+				g2.setPaint(e.getVisibleColors()[i]);
+				int rotAngleID = e.rotationAffected(i);
+				if(rotAngleID != -1){
+					Graphics2D g2clone3 = (Graphics2D)(g2.create());
+					switch(rotAngleID){
+					case 0:
+						g2clone3.rotate(e.getRotAng1(),e.getxRotCenter(),e.getyRotCenter());
+						break;
+					case 1:
+						g2clone3.rotate(e.getRotAng2(),e.getxRotCenter(),e.getyRotCenter());
+						break;
+					case 2:
+						g2clone3.rotate(e.getRotAng3(),e.getxRotCenter(),e.getyRotCenter());
+						break;
+					case 3:
+						g2clone3.rotate(e.getRotAng4(),e.getxRotCenter(),e.getyRotCenter());
+						break;
+					}
+					g2clone3.fill(e.getVisibleParts()[i]);
+				} else {
+					g2.fill(e.getVisibleParts()[i]);
+				}
+			}
+			
+			
+		}
+		
 		for(Projectile p : toRemove){
 			projectiles.remove(p);
 		}
@@ -95,5 +131,9 @@ public class Visual extends JComponent{
 	
 	public void addProjectile(Projectile p){
 		projectiles.add(p);
+	}
+	
+	public void addEnemy(Enemy e){
+		enemies.add(e);
 	}
 }

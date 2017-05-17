@@ -165,14 +165,13 @@ public class PlayerBox {
 		hitbox = new Ellipse2D.Double(
 				hitbox.getX()+moveVecMag*VECTOR_MAX_MOVE_AMOUNT*Math.cos(moveVecAng),
 				hitbox.getY()-moveVecMag*VECTOR_MAX_MOVE_AMOUNT*Math.sin(moveVecAng),
-				hitbox.getWidth(),hitbox.getHeight()
-				);
+				hitbox.getWidth(),hitbox.getHeight());
 	}
 	
 	public void setPos(double x, double y){
 		visible = new Rectangle2D.Double(x,y,visible.getWidth(),visible.getHeight());
 		barrel = new Rectangle2D.Double(visible.getCenterX(),visible.getCenterY()-0.05*LENGTH,barrel.getWidth(),barrel.getHeight());
-		
+		hitbox = new Ellipse2D.Double(-(HITBOX_LENGTH/2.0)+visible.getCenterX(),-(HITBOX_LENGTH/2.0)+visible.getCenterY(),HITBOX_LENGTH,HITBOX_LENGTH);
 	}
 	
 	public Rectangle2D getVisible() {

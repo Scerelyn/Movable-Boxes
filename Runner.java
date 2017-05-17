@@ -10,6 +10,8 @@ import com.ivan.xinput.XInputDevice14;
 import com.ivan.xinput.enums.XInputButton;
 import com.ivan.xinput.exceptions.XInputNotLoadedException;
 
+import BoxController.Enemies.BasicEnemy;
+
 public class Runner {
 
 	public static void main(String[] args) {
@@ -23,6 +25,7 @@ public class Runner {
 			
 			Visual v = new Visual(0,0,2000,1000);
 			v.addPlayer(p1);
+			v.addEnemy(new BasicEnemy(50,50));
 			//v.addPlayer(p2);
 			VisualRefresher vr = new VisualRefresher(v);
 			t.schedule(vr, 0, 10);
@@ -30,7 +33,7 @@ public class Runner {
 			JFrame jf = new JFrame();
 			jf.getContentPane().add(v);
 			jf.pack();
-			jf.setBounds(0, 0, 2000, 1100);
+			jf.setBounds(0, 0, 2000, 1150);
 			jf.setVisible(true);
 			jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
