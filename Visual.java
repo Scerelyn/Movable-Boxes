@@ -23,17 +23,6 @@ public class Visual extends JComponent{
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setPaint(Color.LIGHT_GRAY);
 		g2.fill(bg);
-		ArrayList<Projectile> toRemove = new ArrayList<>();
-		for(Projectile p : projectiles){
-			if( !(p.getVisible().getX() < 0 || p.getVisible().getX()+p.getVisible().getWidth() > bg.getX()+bg.getWidth() || p.getVisible().getY() < 0 || p.getVisible().getY()+p.getVisible().getHeight() > bg.getY()+bg.getHeight()) ){
-				p.move();
-			} else {
-				toRemove.add(p);
-			}
-			g2.setPaint(p.getpColor());
-			g2.fill(p.getVisible());
-			
-		}
 		
 		for(PlayerBox pb : players){
 			Graphics2D g2clone = (Graphics2D)(g2.create());
@@ -116,10 +105,25 @@ public class Visual extends JComponent{
 					g2.fill(e.getVisibleParts()[i]);
 				}
 			}
-			
-			
+			if(e.canShoot()){
+				Projectile p = e.shoot();
+				if(p != null){
+					projectiles.add(p);
+				}
+			}
 		}
 		
+		ArrayList<Projectile> toRemove = new ArrayList<>();
+		for(Projectile p : projectiles){
+			if( !(p.getVisible().getX() < 0 || p.getVisible().getX()+p.getVisible().getWidth() > bg.getX()+bg.getWidth() || p.getVisible().getY() < 0 || p.getVisible().getY()+p.getVisible().getHeight() > bg.getY()+bg.getHeight()) ){
+				p.move();
+			} else {
+				toRemove.add(p);
+			}
+			g2.setPaint(p.getpColor());
+			g2.fill(p.getVisible());
+			
+		}
 		for(Projectile p : toRemove){
 			projectiles.remove(p);
 		}

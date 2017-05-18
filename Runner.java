@@ -24,7 +24,7 @@ public class Runner {
 			PlayerBox p2 = new PlayerBox(20,20,Color.YELLOW.darker().darker(),devices[1]);
 			p1.changeState();
 			p2.changeState();
-			Enemy e1 = new BasicEnemy(50,50);
+			Enemy e1 = new BasicEnemy(200,250);
 			
 			
 			

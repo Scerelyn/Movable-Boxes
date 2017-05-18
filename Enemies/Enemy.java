@@ -8,6 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import BoxController.PlayerBox;
+import BoxController.Projectile;
 
 public abstract class Enemy {
 	protected PlayerBox currentTarget;
@@ -41,7 +42,7 @@ public abstract class Enemy {
 	
 	public abstract void build(); //builds the visibleParts, hitboxes, and visibleColors arrays
 	public abstract void update(); //updates things like angles and rebuilds if needed
-	
+	public Projectile shoot(){ return null; } //default shoot mechanics, does nothing on default
 	public Shape[] getVisibleParts() {
 		return visibleParts;
 	}
@@ -111,6 +112,10 @@ public abstract class Enemy {
 
 	public void setTargetList(ArrayList<PlayerBox> targetList) {
 		this.targetList = targetList;
+	}
+
+	public boolean canShoot() {
+		return canShoot;
 	}
 	
 	

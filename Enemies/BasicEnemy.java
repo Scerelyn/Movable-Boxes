@@ -5,6 +5,8 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
+import BoxController.Projectile;
+
 public class BasicEnemy extends Enemy{
 
 	public BasicEnemy(double xPos, double yPos) {
@@ -45,11 +47,23 @@ public class BasicEnemy extends Enemy{
 		}
 		if(canShoot){
 			this.visibleColors[2] = Color.YELLOW;
-			canShoot = false;
 		} else {
 			this.visibleColors[2] = Color.BLACK;
 		}
 		
 	}
-	
+	@Override
+	public Projectile shoot(){
+		canShoot = false;
+		return new Projectile(
+				this.visibleParts[0].getBounds().getCenterX()-5, 
+				this.visibleParts[0].getBounds().getCenterY()-5,
+				10,
+				10,
+				1,
+				-rotAng1, //angles sure are hard too keep track of, good thing transforming is ezpz
+				5,
+				Color.YELLOW
+				);
+	}
 }
