@@ -30,7 +30,17 @@ public class BasicEnemy extends Enemy{
 
 	@Override
 	public void update() {
-		rotAng1 += Math.PI/45.0; //so it just spins around for now
+		double y = this.getVisibleParts()[0].getBounds().getCenterY()-this.currentTarget.getVisible().getCenterY();
+		double x = this.getVisibleParts()[0].getBounds().getCenterX()-this.currentTarget.getVisible().getCenterX();
+		rotAng1 = Math.atan((y)/(x));
+		rotAng1 += Math.PI; //the drawn rotation is backwards for some reason
+		if(x >= 0 && y >= 0){ //quadrant I
+			
+		} else if((x < 0 && y >= 0) || (x < 0 && y < 0)){ //II or III
+			rotAng1 += Math.PI;
+		} else if(x >= 0 && y < 0){ //IV
+			rotAng1 += (2*Math.PI);
+		}
 	}
 	
 }

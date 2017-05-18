@@ -3,8 +3,13 @@ package BoxController.Enemies;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
+import java.util.ArrayList;
+
+import BoxController.PlayerBox;
 
 public abstract class Enemy {
+	protected PlayerBox currentTarget;
+	protected ArrayList<PlayerBox> targetList = new ArrayList<>();
 	protected Shape[] visibleParts;
 	protected Shape[] hitboxes;
 	protected Color[] visibleColors; //indexes of this array match the elements in visibleParts
@@ -79,4 +84,22 @@ public abstract class Enemy {
 		}
 		return -1;
 	}
+
+	public PlayerBox getCurrentTarget() {
+		return currentTarget;
+	}
+
+	public ArrayList<PlayerBox> getTargetList() {
+		return targetList;
+	}
+
+	public void setRandomCurrentTarget() {
+		this.currentTarget = targetList.get( (int)(Math.random()*targetList.size()) );
+	}
+
+	public void setTargetList(ArrayList<PlayerBox> targetList) {
+		this.targetList = targetList;
+	}
+	
+	
 }

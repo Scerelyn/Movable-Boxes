@@ -1,6 +1,7 @@
 package BoxController;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Timer;
 
 import javax.swing.JFrame;
@@ -11,6 +12,7 @@ import com.ivan.xinput.enums.XInputButton;
 import com.ivan.xinput.exceptions.XInputNotLoadedException;
 
 import BoxController.Enemies.BasicEnemy;
+import BoxController.Enemies.Enemy;
 
 public class Runner {
 
@@ -22,10 +24,15 @@ public class Runner {
 			PlayerBox p2 = new PlayerBox(20,20,Color.YELLOW.darker().darker(),devices[1]);
 			p1.changeState();
 			p2.changeState();
+			Enemy e1 = new BasicEnemy(50,50);
+			
 			
 			Visual v = new Visual(0,0,2000,1000);
 			v.addPlayer(p1);
-			v.addEnemy(new BasicEnemy(50,50));
+			v.addEnemy(e1);
+			e1.setTargetList((ArrayList<PlayerBox>)v.getPlayers().clone());
+			e1.setRandomCurrentTarget();
+			
 			//v.addPlayer(p2);
 			VisualRefresher vr = new VisualRefresher(v);
 			t.schedule(vr, 0, 10);

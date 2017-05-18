@@ -136,4 +136,14 @@ public class Visual extends JComponent{
 	public void addEnemy(Enemy e){
 		enemies.add(e);
 	}
+
+	public ArrayList<PlayerBox> getPlayers() {
+		return players;
+	}
+
+	public ArrayList<Enemy> getEnemies() {
+		return enemies;
+	}
+	
+	
 }
