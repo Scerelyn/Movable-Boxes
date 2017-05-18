@@ -27,11 +27,23 @@ public class Runner {
 			Enemy e1 = new BasicEnemy(50,50);
 			
 			
+			
 			Visual v = new Visual(0,0,2000,1000);
 			v.addPlayer(p1);
 			v.addEnemy(e1);
-			e1.setTargetList((ArrayList<PlayerBox>)v.getPlayers().clone());
+			e1.setTargetList((ArrayList<PlayerBox>)v.getPlayers().clone()); //cloning because maybe the list will be altered
 			e1.setRandomCurrentTarget();
+			
+			
+			ArrayList<Enemy> enemiesss = new ArrayList<>();
+			for(int i = 0; i < 50; i++){
+				enemiesss.add(new BasicEnemy( (int)(Math.random()*800),(int)(Math.random()*800) ));
+				enemiesss.get(i).setTargetList((ArrayList<PlayerBox>)v.getPlayers().clone()); 
+				enemiesss.get(i).setRandomCurrentTarget();
+				v.addEnemy(enemiesss.get(i));
+			}
+			
+			
 			
 			//v.addPlayer(p2);
 			VisualRefresher vr = new VisualRefresher(v);

@@ -13,6 +13,8 @@ public class BasicEnemy extends Enemy{
 		this.rotationAffectedShapes[0][0] = 2;
 		this.visibleColors = new Color[3];
 		build();
+		this.reseter = new ShootReseter();
+		fireLimiter.schedule(this.reseter,0,1000);
 	}
 
 	@Override
@@ -21,11 +23,11 @@ public class BasicEnemy extends Enemy{
 		yRotCenter = yPos + 15;
 		this.visibleParts = new Shape[3];
 		this.visibleParts[0] = new Rectangle2D.Double(xPos,yPos,30,30);
-		this.visibleColors[0] = Color.RED;
+		this.visibleColors[0] = Color.ORANGE.darker().darker();
 		this.visibleParts[1] = new Ellipse2D.Double(xPos+5,yPos+5,20,20);
-		this.visibleColors[1] = Color.YELLOW;
+		this.visibleColors[1] = Color.GRAY;
 		this.visibleParts[2] = new Rectangle2D.Double(xPos+10,yPos+10,40,10);
-		this.visibleColors[2] = Color.BLUE;
+		this.visibleColors[2] = Color.BLACK;
 	}
 
 	@Override
@@ -41,6 +43,13 @@ public class BasicEnemy extends Enemy{
 		} else if(x >= 0 && y < 0){ //IV
 			rotAng1 += (2*Math.PI);
 		}
+		if(canShoot){
+			this.visibleColors[2] = Color.YELLOW;
+			canShoot = false;
+		} else {
+			this.visibleColors[2] = Color.BLACK;
+		}
+		
 	}
 	
 }
