@@ -14,10 +14,13 @@ public abstract class Enemy {
 	protected PlayerBox currentTarget;
 	protected ArrayList<PlayerBox> targetList = new ArrayList<>();
 	protected Shape[] visibleParts;
-	protected Shape[] hitboxes;
+	protected Shape hitbox;
 	protected Color[] visibleColors; //indexes of this array match the elements in visibleParts
+	protected Color[] visibleColorsOrig; //since colors can change temporarily, i need to store a copy
+	protected Color mainColor;
+	protected int hitEffectDuration = 0;
 	protected double xPos = 0,yPos = 0,xRotCenter = 0,yRotCenter = 0,rotAng1 = 0,rotAng2 = 0,rotAng3 = 0,rotAng4 = 0;
-	protected int[][] rotationAffectedShapes = new int[4][]; //defines which visible parts/hitboxes are affected by which roation variable
+	protected int[][] rotationAffectedShapes = new int[4][]; //defines which visible parts/hitboxes are affected by which rotation variable
 															 //[rotAng#][shape#]
 	protected boolean canShoot = true;
 	protected static final Timer fireLimiter = new Timer();
@@ -37,6 +40,7 @@ public abstract class Enemy {
 		rotationAffectedShapes[2] = new int[0];
 		rotationAffectedShapes[3] = new int[0];
 		this.visibleColors = new Color[0];
+		this.visibleColorsOrig = new Color[0];
 	}
 	
 	
@@ -46,8 +50,8 @@ public abstract class Enemy {
 	public Shape[] getVisibleParts() {
 		return visibleParts;
 	}
-	public Shape[] getHitboxes() {
-		return hitboxes;
+	public Shape getHitbox() {
+		return hitbox;
 	}
 	public Color[] getVisibleColors() {
 		return visibleColors;
@@ -116,6 +120,27 @@ public abstract class Enemy {
 
 	public boolean canShoot() {
 		return canShoot;
+	}
+
+	public int getHitEffectDuration() {
+		return hitEffectDuration;
+	}
+
+	public void setHitEffectDuration(int hitEffectDuration) {
+		this.hitEffectDuration = hitEffectDuration;
+	}
+	
+	public Color getMainColor() {
+		return mainColor;
+	}
+
+	public void setMainColor(Color mainColor) {
+		this.mainColor = mainColor;
+		this.visibleColors[0] = mainColor;
+	}
+
+	public Color[] getVisibleColorsOrig() {
+		return visibleColorsOrig;
 	}
 	
 	

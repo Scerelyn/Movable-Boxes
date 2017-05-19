@@ -35,13 +35,13 @@ public class Runner {
 			e1.setRandomCurrentTarget();
 			
 			
-			ArrayList<Enemy> enemiesss = new ArrayList<>();
-			for(int i = 0; i < 50; i++){
-				enemiesss.add(new BasicEnemy( (int)(Math.random()*800),(int)(Math.random()*800) ));
-				enemiesss.get(i).setTargetList((ArrayList<PlayerBox>)v.getPlayers().clone()); 
-				enemiesss.get(i).setRandomCurrentTarget();
-				v.addEnemy(enemiesss.get(i));
-			}
+			//ArrayList<Enemy> enemiesss = new ArrayList<>();
+			//for(int i = 0; i < 50; i++){
+			//	enemiesss.add(new BasicEnemy( (int)(Math.random()*800),(int)(Math.random()*800) ));
+			//	enemiesss.get(i).setTargetList((ArrayList<PlayerBox>)v.getPlayers().clone()); 
+			//	enemiesss.get(i).setRandomCurrentTarget();
+			//	v.addEnemy(enemiesss.get(i));
+			//}
 			
 			
 			

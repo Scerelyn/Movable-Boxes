@@ -14,6 +14,7 @@ public class BasicEnemy extends Enemy{
 		this.rotationAffectedShapes[0] = new int[1];
 		this.rotationAffectedShapes[0][0] = 2;
 		this.visibleColors = new Color[3];
+		this.visibleColorsOrig = new Color[3];
 		build();
 		this.reseter = new ShootReseter();
 		fireLimiter.schedule(this.reseter,0,1000);
@@ -25,11 +26,16 @@ public class BasicEnemy extends Enemy{
 		yRotCenter = yPos + 15;
 		this.visibleParts = new Shape[3];
 		this.visibleParts[0] = new Rectangle2D.Double(xPos,yPos,30,30);
-		this.visibleColors[0] = Color.ORANGE.darker().darker();
+		mainColor = Color.ORANGE.darker().darker();
+		this.visibleColors[0] = mainColor;
+		this.visibleColorsOrig[0] = Color.ORANGE.darker().darker();
 		this.visibleParts[1] = new Ellipse2D.Double(xPos+5,yPos+5,20,20);
 		this.visibleColors[1] = Color.GRAY;
+		this.visibleColorsOrig[1] = Color.GRAY;
 		this.visibleParts[2] = new Rectangle2D.Double(xPos+10,yPos+10,40,10);
 		this.visibleColors[2] = Color.BLACK;
+		this.visibleColorsOrig[2] = Color.BLACK;
+		this.hitbox = new Rectangle2D.Double(xPos,yPos,30,30);
 	}
 
 	@Override
@@ -63,7 +69,8 @@ public class BasicEnemy extends Enemy{
 				1,
 				-rotAng1, //angles sure are hard too keep track of, good thing transforming is ezpz
 				5,
-				Color.YELLOW
+				Color.YELLOW,
+				false
 				);
 	}
 }

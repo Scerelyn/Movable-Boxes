@@ -24,12 +24,13 @@ public class Visual extends JComponent{
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setPaint(Color.LIGHT_GRAY);
 		g2.fill(bg);
+		ArrayList<Projectile> toRemove = new ArrayList<>();
 		
 		for(PlayerBox pb : players){
-			boolean hit = false;
 			for(Projectile p : projectiles){
-				if(p.getVisible().intersects(pb.getHitbox())){
+				if(!p.isPlayerFired() && p.getVisible().intersects(pb.getHitbox())){
 					pb.setHitEffectDuration(5);
+					toRemove.add(p);
 				}
 			}
 			if(pb.getHitEffectDuration() > 0){
@@ -38,8 +39,6 @@ public class Visual extends JComponent{
 			} else {
 				pb.setColor(pb.getColorOrig());
 			}
-			System.out.println(pb.getHitEffectDuration());
-			
 			Graphics2D g2clone = (Graphics2D)(g2.create());
 			
 			if( !(pb.getVisible().getX() < 0 || pb.getVisible().getX()+PlayerBox.MOVEMENT_HITBOX_LENGTH > bg.getX()+bg.getWidth() || pb.getVisible().getY() < 0 || pb.getVisible().getY()+PlayerBox.MOVEMENT_HITBOX_LENGTH > bg.getY()+bg.getHeight()) ){
@@ -67,7 +66,8 @@ public class Visual extends JComponent{
 						1,
 						pb.getAimVecAng()+pb.getRandInRange(pb.getAccMin(), pb.getAccMax()),
 						pb.getProjSpeed(),
-						pb.getProjColor()
+						pb.getProjColor(),
+						true
 						)
 					);
 				}
@@ -99,6 +99,19 @@ public class Visual extends JComponent{
 		for(Enemy e : enemies){
 			e.build();
 			e.update();
+			
+			for(Projectile p : projectiles){
+				if(p.isPlayerFired() && p.getVisible().intersects(e.getHitbox().getBounds2D())){
+					e.setHitEffectDuration(5);
+					toRemove.add(p);
+				}
+			}
+			if(e.getHitEffectDuration() > 0){
+				e.setMainColor(Color.WHITE);
+				e.setHitEffectDuration(e.getHitEffectDuration()-1);
+			} else {
+				e.setMainColor(e.getVisibleColorsOrig()[0]);
+			}
 			
 			for(int i = 0; i < e.getVisibleParts().length; i++){
 				g2.setPaint(e.getVisibleColors()[i]);
@@ -132,7 +145,6 @@ public class Visual extends JComponent{
 			}
 		}
 		
-		ArrayList<Projectile> toRemove = new ArrayList<>();
 		for(Projectile p : projectiles){
 			if( !(p.getVisible().getX() < 0 || p.getVisible().getX()+p.getVisible().getWidth() > bg.getX()+bg.getWidth() || p.getVisible().getY() < 0 || p.getVisible().getY()+p.getVisible().getHeight() > bg.getY()+bg.getHeight()) ){
 				p.move();

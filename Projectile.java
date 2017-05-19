@@ -9,12 +9,14 @@ public class Projectile {
 	private int damage;
 	private double ang,speed;
 	private Color pColor;
-	public Projectile(double x, double y, double width, double height, int damage, double angle, double speed, Color c){
+	private boolean playerFired;
+	public Projectile(double x, double y, double width, double height, int damage, double angle, double speed, Color c, boolean playerFired){
 		this.visible = new Ellipse2D.Double(x,y,width,height);
 		this.damage = damage;
 		this.ang = angle;
 		this.speed = speed;
 		this.pColor = c;
+		this.playerFired = playerFired;
 	}
 	
 	public void setPos(double x, double y){
@@ -55,6 +57,10 @@ public class Projectile {
 
 	public Color getpColor() {
 		return pColor;
+	}
+
+	public boolean isPlayerFired() {
+		return playerFired;
 	}
 	
 	
