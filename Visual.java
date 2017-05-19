@@ -8,6 +8,7 @@ import javax.swing.JComponent;
 import BoxController.Enemies.Enemy;
 
 public class Visual extends JComponent{
+	private static final boolean SHOW_HITBOXES = false;
 	private ArrayList<PlayerBox> players = new ArrayList<>();
 	private ArrayList<Projectile> projectiles = new ArrayList<>();
 	private ArrayList<Enemy> enemies = new ArrayList<>();
@@ -25,6 +26,20 @@ public class Visual extends JComponent{
 		g2.fill(bg);
 		
 		for(PlayerBox pb : players){
+			boolean hit = false;
+			for(Projectile p : projectiles){
+				if(p.getVisible().intersects(pb.getHitbox())){
+					pb.setHitEffectDuration(5);
+				}
+			}
+			if(pb.getHitEffectDuration() > 0){
+				pb.setColor(pb.getGotHitColor());
+				pb.setHitEffectDuration(pb.getHitEffectDuration()-1);
+			} else {
+				pb.setColor(pb.getColorOrig());
+			}
+			System.out.println(pb.getHitEffectDuration());
+			
 			Graphics2D g2clone = (Graphics2D)(g2.create());
 			
 			if( !(pb.getVisible().getX() < 0 || pb.getVisible().getX()+PlayerBox.MOVEMENT_HITBOX_LENGTH > bg.getX()+bg.getWidth() || pb.getVisible().getY() < 0 || pb.getVisible().getY()+PlayerBox.MOVEMENT_HITBOX_LENGTH > bg.getY()+bg.getHeight()) ){
@@ -74,7 +89,11 @@ public class Visual extends JComponent{
 			g2.draw(pb.getAimVect());
 		
 			g2.setPaint(Color.GRAY);
-			g2.fill(pb.getHitbox());
+			g2.fill(pb.getVisibleHitbox());
+			if(SHOW_HITBOXES){
+				g2.setPaint(Color.RED);
+				g2.fill(pb.getHitbox());
+			}
 		}
 		
 		for(Enemy e : enemies){

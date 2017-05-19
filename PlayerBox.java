@@ -19,15 +19,16 @@ import com.ivan.xinput.enums.XInputButton;
 public class PlayerBox {
 	public final static double LENGTH = 80, WIDTH = 40, VECTOR_MAX_LENGTH = 40, VECTOR_MAX_MOVE_AMOUNT = 5, MOVEMENT_HITBOX_LENGTH = 80, HITBOX_LENGTH = 20;
 	private Rectangle2D visible,barrel;
-	private Ellipse2D hitbox;
+	private Ellipse2D visibleHitbox;
+	private Rectangle2D hitbox;
 	private Point2D barrelEnd;
-	private Color color;
+	private Color color,colorOrig,gotHitColor = Color.WHITE;
 	private Line2D dirVect,aimVect;
 	private XInputDevice14 controller;
 	private double moveVecAng, moveVecMag, aimVecAng; //ang is from 0 to 2pi, mag is 0 to 1
 	private boolean isShooting = false;
 	//weapon info
-	private int wepID = 0, projCount = 1;
+	private int wepID = 0, projCount = 1, hitEffectDuration = 0;
 	private double accMin = -0, accMax = 0;
 	private Color projColor = Color.YELLOW;
 	private double projSize = 15, projSpeed = 50;
@@ -44,8 +45,10 @@ public class PlayerBox {
 	public PlayerBox(double xPos, double yPos, Color c, XInputDevice14 xin){
 		this.visible = new Rectangle2D.Double(xPos,yPos,WIDTH,LENGTH);
 		this.barrel = new Rectangle2D.Double(visible.getCenterX(),visible.getCenterY()-0.05*LENGTH,1.2*WIDTH,0.1*LENGTH);
-		this.hitbox = new Ellipse2D.Double((-(WIDTH+HITBOX_LENGTH)/2.0)+xPos+visible.getCenterX(),(-(LENGTH-HITBOX_LENGTH)/2.0)+yPos+visible.getCenterY(),HITBOX_LENGTH,HITBOX_LENGTH);
+		this.visibleHitbox = new Ellipse2D.Double((-(WIDTH+HITBOX_LENGTH)/2.0)+xPos+visible.getCenterX(),(-(LENGTH-HITBOX_LENGTH)/2.0)+yPos+visible.getCenterY(),HITBOX_LENGTH,HITBOX_LENGTH);
+		this.hitbox = new Rectangle2D.Double((-(WIDTH+HITBOX_LENGTH)/2.0)+xPos+visible.getCenterX(),(-(LENGTH-HITBOX_LENGTH)/2.0)+yPos+visible.getCenterY(),HITBOX_LENGTH,HITBOX_LENGTH);
 		this.color = c;
+		this.colorOrig = c;
 		this.controller = xin;
 		this.moveVecMag = 0;
 		this.moveVecAng = 0;
@@ -162,7 +165,11 @@ public class PlayerBox {
 				barrel.getX()+moveVecMag*VECTOR_MAX_MOVE_AMOUNT*Math.cos(moveVecAng),
 				barrel.getY()-moveVecMag*VECTOR_MAX_MOVE_AMOUNT*Math.sin(moveVecAng),
 				barrel.getWidth(),barrel.getHeight());
-		hitbox = new Ellipse2D.Double(
+		visibleHitbox = new Ellipse2D.Double(
+				visibleHitbox.getX()+moveVecMag*VECTOR_MAX_MOVE_AMOUNT*Math.cos(moveVecAng),
+				visibleHitbox.getY()-moveVecMag*VECTOR_MAX_MOVE_AMOUNT*Math.sin(moveVecAng),
+				visibleHitbox.getWidth(),visibleHitbox.getHeight());
+		hitbox = new Rectangle2D.Double(
 				hitbox.getX()+moveVecMag*VECTOR_MAX_MOVE_AMOUNT*Math.cos(moveVecAng),
 				hitbox.getY()-moveVecMag*VECTOR_MAX_MOVE_AMOUNT*Math.sin(moveVecAng),
 				hitbox.getWidth(),hitbox.getHeight());
@@ -171,7 +178,8 @@ public class PlayerBox {
 	public void setPos(double x, double y){
 		visible = new Rectangle2D.Double(x,y,visible.getWidth(),visible.getHeight());
 		barrel = new Rectangle2D.Double(visible.getCenterX(),visible.getCenterY()-0.05*LENGTH,barrel.getWidth(),barrel.getHeight());
-		hitbox = new Ellipse2D.Double(-(HITBOX_LENGTH/2.0)+visible.getCenterX(),-(HITBOX_LENGTH/2.0)+visible.getCenterY(),HITBOX_LENGTH,HITBOX_LENGTH);
+		visibleHitbox = new Ellipse2D.Double(-(HITBOX_LENGTH/2.0)+visible.getCenterX(),-(HITBOX_LENGTH/2.0)+visible.getCenterY(),HITBOX_LENGTH,HITBOX_LENGTH);
+		hitbox = new Rectangle2D.Double(-(HITBOX_LENGTH/2.0)+visible.getCenterX(),-(HITBOX_LENGTH/2.0)+visible.getCenterY(),HITBOX_LENGTH,HITBOX_LENGTH);
 	}
 	
 	public Rectangle2D getVisible() {
@@ -267,8 +275,31 @@ public class PlayerBox {
 		return canShoot;
 	}
 
-	public Ellipse2D getHitbox() {
+	public Ellipse2D getVisibleHitbox() {
+		return visibleHitbox;
+	}
+	
+	public Rectangle2D getHitbox() {
 		return hitbox;
 	}
 	
+	public Color getColorOrig() {
+		return colorOrig;
+	}
+
+	public Color getGotHitColor() {
+		return gotHitColor;
+	}
+
+	public int getHitEffectDuration() {
+		return hitEffectDuration;
+	}
+
+	public void setHitEffectDuration(int hitEffectDuration) {
+		this.hitEffectDuration = hitEffectDuration;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
 }
